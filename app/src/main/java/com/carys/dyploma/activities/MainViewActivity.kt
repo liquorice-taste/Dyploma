@@ -47,7 +47,7 @@ class MainViewActivity: AppCompatActivity()  {
                     withContext(Dispatchers.Default) {
                         val responseJson = JSONObject(
                             Requester.sendRequest(
-                                "http://192.168.1.10:8000/api/lightcontroller/",
+                                "http://192.168.1.10:8000/devices/",
                                 "GET",
                                 headers = headers
                             ).second
