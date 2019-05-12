@@ -45,8 +45,11 @@ class AuthPresenter(val activity: AuthActivity.AuthActivityUi) {
             "POST",  parameters)
         if (response.second != "") {
             val jobj = JSONObject(response.second)
-            if (jobj.has("access_token"))
-                SharedUtils.write("Token", "Bearer " +  jobj.getString("access_token"))
+            if (jobj.has("access_token")){
+                val utils = SharedUtils()
+                utils.write("Token", "Bearer " +  jobj.getString("access_token"))
+
+            }
         }
         return response.first
     }

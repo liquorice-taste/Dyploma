@@ -43,11 +43,12 @@ class MainViewActivity: AppCompatActivity()  {
                 var devs: ArrayList<LightController> = arrayListOf()
                 GlobalScope.launch(Dispatchers.Main) {
                     var headers: ArrayList<Pair<String, String>> = arrayListOf()
-                    headers.add("Authorization" to Token.token.token_header)
+                    val utils = SharedUtils()
+                    headers.add("Authorization" to utils.read("Token"))
                     withContext(Dispatchers.Default) {
                         val responseJson = JSONObject(
                             Requester.sendRequest(
-                                "http://192.168.1.10:8000/devices/",
+                                "http://192.168.1.10:8000/api/lightcontroller/",
                                 "GET",
                                 headers = headers
                             ).second

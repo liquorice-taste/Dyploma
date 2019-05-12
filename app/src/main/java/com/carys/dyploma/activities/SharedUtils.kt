@@ -5,9 +5,14 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
-object SharedUtils : Application() {
-    val preferences : SharedPreferences = this.baseContext.getSharedPreferences("", MODE_PRIVATE)
-
+class SharedUtils : Application() {
+    companion object{
+        private lateinit var preferences :SharedPreferences
+    }
+    override fun onCreate() {
+        super.onCreate()
+        preferences = this.applicationContext.getSharedPreferences("", MODE_PRIVATE)
+    }
     fun write(key: String, content: String) :Boolean = preferences.edit().putString(key, content).commit()
     fun remove(key: String) : Boolean = preferences.edit().remove(key).commit()
     fun removeAll(): Boolean {

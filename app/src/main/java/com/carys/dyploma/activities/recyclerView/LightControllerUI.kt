@@ -33,7 +33,6 @@ class LightControllerUI : AnkoComponent<ViewGroup> {
             when (lType.text) {
                 "RGB" -> {
 
-
                 }
                 "Singlecolor" -> {
                     seekBar {
