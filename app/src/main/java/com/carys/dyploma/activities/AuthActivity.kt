@@ -22,7 +22,6 @@ class AuthActivity : AppCompatActivity() {
         AuthActivityUi(this.baseContext).setContentView(this)
     }
 
-    lateinit var name: EditText
     class AuthActivityUi(context: Context) : AnkoComponent<AuthActivity> {
 
         val presenter = AuthPresenter(this)
@@ -45,6 +44,7 @@ class AuthActivity : AppCompatActivity() {
             verticalLayout {
                 padding = dip(32)
 
+
                 image = imageView(R.mipmap.bro).lparams {
                     margin = dip(32)
                     gravity = Gravity.CENTER
@@ -58,9 +58,8 @@ class AuthActivity : AppCompatActivity() {
                     inputType = TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
                 }
                 login = button("Log in") {
-
                     onClick() {
-                        presenter.callServer()
+                        presenter.authorize()
                     }
                 }
             }.applyRecursively(customStyle)
