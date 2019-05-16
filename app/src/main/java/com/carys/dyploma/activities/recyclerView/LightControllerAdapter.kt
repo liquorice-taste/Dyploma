@@ -12,14 +12,14 @@ import kotlinx.android.synthetic.*
 import org.jetbrains.anko.AnkoContext
 
 class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf()) : RecyclerView.Adapter<LightControllerAdapter.LightControllerViewHolder>() {
-
+    /*
     var lightlist : ArrayList<LightController>
     init {
         lightlist = list
     }
-
+    */
     fun setData(lst: ArrayList<LightController>) {
-        lightlist = lst
+        list = lst
         notifyDataSetChanged()
     }
 

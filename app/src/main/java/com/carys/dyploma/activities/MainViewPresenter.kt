@@ -36,10 +36,10 @@ class MainViewPresenter(val view: MainViewActivity.MainViewActivityUi) {
         )
     }
 
-    fun fulfillLightsList(list: ArrayList<LightController>) {
-        GlobalScope.launch(Dispatchers.Main) {
+    fun fulfillLightsList(list: ArrayList<LightController>) = GlobalScope.launch(Dispatchers.Main) {
             view.devs = list
-            view.rec.adapter!!.notifyDataSetChanged()
-        }
+            val adapter = view.rec.adapter as LightControllerAdapter
+            adapter.setData(list)
+
     }
 }

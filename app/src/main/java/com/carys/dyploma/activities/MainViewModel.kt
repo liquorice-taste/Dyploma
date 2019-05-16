@@ -8,10 +8,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import kotlin.reflect.KClass
+import kotlin.reflect.KClassifier
 
 class MainViewModel {
 
-    inline fun <reified T: Any>  getApiCall(source: String, noinline callback: (ArrayList<T> ) -> Unit) {
+    inline fun <reified T: Any>  getApiCall(source: String, noinline callback: (LightController) -> Unit) {
         GlobalScope.launch(Dispatchers.Main)
         {
             var headers: ArrayList<Pair<String, String>> = arrayListOf()
@@ -24,14 +26,17 @@ class MainViewModel {
                         headers = arrayListOf("Authorization" to SharedUtils().read("Token"))
                     ).second
                 )
-                println("вот ответ" + responseJson.getJSONArray("results"))
+                /*println("вот ответ" + responseJson.getJSONArray("results"))
                 responseJson.getJSONArray("results")
                 val gson = Gson()
 
                 callback(gson.fromJson(
                     responseJson.getJSONArray("results").toString(),
-                    Array<T>::class.java
-                ).toCollection(ArrayList()))
+                    Array<T>::javaClass
+                ).toCollection(ArrayList()))*/
+                val gson = Gson()
+                //gson.fromJson(responseJson.getJSONArray("results").toString(), LightController::class.java)
+                callback(gson.fromJson(responseJson.getJSONArray("results").toString(), LightController::class.java))
             }
 
         }

@@ -18,6 +18,7 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.json.JSONObject
 import android.content.Intent.getIntent
 import android.os.Parcelable
+import android.widget.Adapter
 import com.carys.dyploma.activities.dataModels.HomeSystem
 
 
@@ -44,6 +45,7 @@ class MainViewActivity: AppCompatActivity()  {
             }
         }
         lateinit var rec: RecyclerView
+        lateinit var adapt: Adapter
         var devs: ArrayList<LightController> = arrayListOf()
 
         @SuppressLint("SetTextI18n")
@@ -58,7 +60,7 @@ class MainViewActivity: AppCompatActivity()  {
                 rec = recyclerView {
                     id = recycler
                     layoutManager = LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
-                    adapter = LightControllerAdapter(devs)
+                    adapt = adapter = LightControllerAdapter(devs)
                 }
 
                 bottomNavigationView {
