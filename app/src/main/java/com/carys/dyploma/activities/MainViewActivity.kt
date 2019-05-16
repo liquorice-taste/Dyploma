@@ -16,15 +16,26 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.design.bottomNavigationView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.json.JSONObject
+import android.content.Intent.getIntent
+import android.os.Parcelable
+import com.carys.dyploma.activities.dataModels.HomeSystem
+
 
 class MainViewActivity: AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val linearLayoutManager = LinearLayoutManager(this)
         MainViewActivityUi(linearLayoutManager).setContentView(this)
+        var home = intent.getParcelableExtra("HomeSystem") as HomeSystem
     }
 
     class MainViewActivityUi(linearLayoutManager: LinearLayoutManager) : AnkoComponent<MainViewActivity> {
+        companion object {
+            val recycler = 1
+        }
+
+
+        val presenter = MainViewPresenter(this)
         private val customStyle = { v: Any ->
             when (v) {
                 is Button -> v.textSize = 26f
@@ -32,66 +43,29 @@ class MainViewActivity: AppCompatActivity()  {
                 is TextView -> v.textSize = 26f
             }
         }
-        val ll = linearLayoutManager
+        lateinit var rec: RecyclerView
+        var devs: ArrayList<LightController> = arrayListOf()
 
         @SuppressLint("SetTextI18n")
         override fun createView(ui: AnkoContext<MainViewActivity>) = with(ui) {
+            //rec.setRecyclerListener { devs }
+            presenter.func()
             verticalLayout {
                 textView() {
                     text = "Lights"
                 }
-                var devs: ArrayList<LightController> = arrayListOf()
-                GlobalScope.launch(Dispatchers.Main) {
-                    var headers: ArrayList<Pair<String, String>> = arrayListOf()
-                    val utils = SharedUtils()
-                    headers.add("Authorization" to utils.read("Token"))
-                    withContext(Dispatchers.Default) {
-                        val responseJson = JSONObject(
-                            Requester.sendRequest(
-                                "http://192.168.1.10:8000/api/lightcontroller/",
-                                "GET",
-                                headers = headers
-                            ).second
-                        )
-                        println(responseJson.getJSONArray("results"))
-                        responseJson.getJSONArray("results")
-                        val gson = Gson()
-                            devs = gson.fromJson(
-                                responseJson.getJSONArray("results").toString(),
-                                Array<LightController>::class.java
-                            ).toCollection(ArrayList())
-                            devs.add(
-                                LightController(
-                                    lightBrightness = 0,
-                                    lightName = "dddddd",
-                                    lightType = "Singlecolor"
-                                )
-                            )
-                            devs.add(
-                                LightController(
-                                    lightBrightness = 14,
-                                    lightName = "dddddd",
-                                    lightType = "RGB"
-                                )
-                            )
-                            devs.add(
-                                LightController(
-                                    lightBrightness = 250,
-                                    lightName = "dddddd",
-                                    lightType = "RGB"
-                                )
-                            )
-                        }
-                        recyclerView {
-                            layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-                            adapter = LightControllerAdapter(devs)
 
-                        }
-                    }
+                rec = recyclerView {
+                    id = recycler
+                    layoutManager = LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
+                    adapter = LightControllerAdapter(devs)
+                }
+
                 bottomNavigationView {
 
                 }
             }.applyRecursively(customStyle)
+
         }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
+//TODO try changing to object
 class SharedUtils : Application() {
     companion object{
         private lateinit var preferences :SharedPreferences

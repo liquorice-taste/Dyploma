@@ -1,6 +1,12 @@
+<!DOCTYPE resources [
+        <!ENTITY baseurl "http://188.32.136.71:8000">
+        ]>
+
 <resources>
     <string name="app_name">Big Brother</string>
     <string name="username">login</string>
     <string name="password">password</string>
     <string name="shadow_color">black</string>
+    <string name="auth_url">"http://188.32.136.71:8000/api/system/"</string>
+    <string name="light_url">"http://188.32.136.71:8000/api/lightcontroller/"</string>
 </resources>

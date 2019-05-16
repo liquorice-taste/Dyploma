@@ -13,6 +13,16 @@ import org.jetbrains.anko.AnkoContext
 
 class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf()) : RecyclerView.Adapter<LightControllerAdapter.LightControllerViewHolder>() {
 
+    var lightlist : ArrayList<LightController>
+    init {
+        lightlist = list
+    }
+
+    fun setData(lst: ArrayList<LightController>) {
+        lightlist = lst
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LightControllerViewHolder {
         return LightControllerViewHolder(LightControllerUI().createView(AnkoContext.create(parent.context, parent)))
     }
@@ -44,4 +54,5 @@ class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf(
         }
 
     }
+
 }

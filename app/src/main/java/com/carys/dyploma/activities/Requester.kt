@@ -9,8 +9,6 @@ import java.net.URL
 import java.net.URLEncoder
 
 interface Requester {
-
-
     companion object {
         fun sendRequest(url: String, reqMethod: String = "GET", parameters: ArrayList<Pair<String, String>> = ArrayList(), headers: ArrayList<Pair<String, String>> = ArrayList()): Pair<Int, String> {
             var reqParam = ""
