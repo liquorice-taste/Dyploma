@@ -1,42 +1,34 @@
 package com.carys.dyploma.activities
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import android.widget.ProgressBar
+import com.carys.dyploma.activities.dataModels.HomeSystem
+import com.carys.dyploma.activities.dataModels.ResponseJSON
+import com.carys.dyploma.activities.dataModels.Token
 
-class AuthPresenter(val view: AuthActivity.AuthActivityUi) {
+class AuthPresenter(private val view: AuthActivity.AuthActivityUi): AuthCallback {
 
     private val model = AuthModel()
 
-    fun authorize() =
-        GlobalScope.launch(Dispatchers.Main) {
-            var respCode: Int = -1
-            view.login.isEnabled = false
-            model.checkCredentials(view.username.text.toString(), view.password.text.toString())
-            { respCode -> uiResponse(respCode) }
-        }
+    fun authorize() {
+        view.progress.visibility = ProgressBar.VISIBLE
+        view.login.isEnabled = false
+        model.getToken(view.username.text.toString(), view.password.text.toString(), this)
+    }
 
-    fun getSystemsList() =
-        GlobalScope.launch(Dispatchers.Main) {
-            view.login.isEnabled = false
-            model.checkCredentials(view.username.text.toString(), view.password.text.toString())
-            { respCode -> uiResponse(respCode) }
-        }
-    fun uiResponse(responseCode: Int) {
-        GlobalScope.launch(Dispatchers.Main) {
-            view.login.isEnabled = true
-            when (responseCode) {
-                200 -> {
-                    model.func { list -> view.messageSystems(list) }
-                }
-                400 -> view.toast("Bad request")
-                403 -> view.toast("Forbidden")
-                404 -> view.toast("Page not found")
-                408 -> view.toast("Request timed out")
-                500 -> view.toast("Server error")
-                else -> view.toast("Something bad happened")
+    override fun onFailure(networkError: Throwable) = with(view){
+        view.progress.visibility = ProgressBar.INVISIBLE
+        login.isEnabled = true
+        toast(networkError.message)
+    }
 
-            }
-        }
+    override fun onTokenSuccess(callback: Token) {
+        view.progress.visibility = ProgressBar.INVISIBLE
+        view.login.isEnabled = true
+        SharedUtils.write("Token", "Bearer " + callback.access_token)
+        model.beginSearch(SharedUtils.read("Token"), this)
+    }
+
+    override fun onSystemSuccess(callback: ResponseJSON<HomeSystem>) {
+        view.messageSystems(callback.results.toCollection(ArrayList()))
     }
 }

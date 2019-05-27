@@ -1,45 +1,32 @@
 package com.carys.dyploma.activities
 
-import com.carys.dyploma.activities.dataModels.LightController
-import com.carys.dyploma.activities.recyclerView.LightControllerAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.carys.dyploma.activities.dataModels.HomeSystem
+import com.carys.dyploma.activities.dataModels.ResponseJSON
+import com.carys.dyploma.activities.dataModels.Room
+import com.carys.dyploma.activities.dataModels.Sensor
+import com.carys.dyploma.activities.recyclerView.SensorAdapter
 
-class MainViewPresenter(val view: MainViewActivity.MainViewActivityUi) {
-
+class MainViewPresenter(private val view: MainViewActivity.MainViewActivityUI): MainViewCallback {
     private val model = MainViewModel()
-    fun func() {
-        val list: ArrayList<LightController> = arrayListOf()
-        model.getApiCall<LightController>("lightcontroller") {  list -> fulfillLightsList(list)  }
-        //TODO DELETE
-        view.devs.add(
-            LightController(
-                lightBrightness = 0,
-                lightName = "dddddd",
-                lightType = "Singlecolor"
-            )
-        )
-        view.devs.add(
-            LightController(
-                lightBrightness = 14,
-                lightName = "dddddd",
-                lightType = "RGB"
-            )
-        )
-        view.devs.add(
-            LightController(
-                lightBrightness = 250,
-                lightName = "dddddd",
-                lightType = "RGB"
-            )
-        )
+
+    fun getRooms() {
+        model.getRooms(this, view.home.id)
     }
 
-    fun fulfillLightsList(list: ArrayList<LightController>) = GlobalScope.launch(Dispatchers.Main) {
-            view.devs = list
-            val adapter = view.rec.adapter as LightControllerAdapter
-            adapter.setData(list)
-
+    fun getSystems() {
+        model.beginSearch(this)
     }
+
+    override fun onRoomSuccess(callback: ResponseJSON<Room>) {
+        view.pagerAdapter.refreshRoomList(callback.results)
+    }
+
+    override fun onSystemSuccess(callback: ResponseJSON<HomeSystem>) {
+        view.messageSystems(callback.results.toCollection(ArrayList()))
+    }
+
+    override fun onFailure(networkError: Throwable) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

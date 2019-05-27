@@ -1,7 +1,6 @@
 package com.carys.dyploma.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_TEXT
@@ -10,6 +9,7 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.carys.dyploma.R
 import com.carys.dyploma.activities.dataModels.HomeSystem
@@ -34,6 +34,7 @@ class AuthActivity : AppCompatActivity() {
         lateinit var password: EditText
         lateinit var image: ImageView
         lateinit var login: Button
+        lateinit var progress: ProgressBar
 
         private val customStyle = { v: Any ->
             when (v) {
@@ -65,6 +66,10 @@ class AuthActivity : AppCompatActivity() {
                         presenter.authorize()
                     }
                 }
+                progress = progressBar {
+                    incrementProgressBy(5)
+                    visibility = ProgressBar.INVISIBLE
+                }
             }.applyRecursively(customStyle)
         }
 
@@ -75,14 +80,16 @@ class AuthActivity : AppCompatActivity() {
             (ctx as Activity).finish()
         }
 
-        fun toast(msg: String) = with(myui) {
-            ctx.toast(msg)
+        fun toast(msg: String?) = with(myui) {
+            if (msg != null) {
+                ctx.toast(msg)
+            }
         }
 
         fun messageSystems(list: ArrayList<HomeSystem>) = with(myui) {
             GlobalScope.launch(Dispatchers.Main) {
-                selector("Where are you from?", list.map { it.name })
-                    { dialogInterface, i -> launchActivity(list[i]) }
+                selector("Choose your home:", list.map { it.name })
+                    { _, i -> launchActivity(list[i]) }
             }
         }
     }

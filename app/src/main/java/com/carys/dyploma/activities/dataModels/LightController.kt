@@ -1,11 +1,10 @@
 package com.carys.dyploma.activities.dataModels
 
-data class LightController(var lightType: String? = "",
-                           var lightBrightness: Int = 0,
-                           var lightId: Int = 0,
-                           var lightName: String? = "",
-                           var lightUuid: String? = "",
-                           var lightPort: Int? = 0,
-                           var lightStatus: String? = "",
-                           var lightSystem: Int? = 0,
-                           var lightRoom: String? = "")
+data class LightController(val type: String? = "",
+                           val brightness: Int = 0,
+                           val id: Int = 0,
+                           val name: String? = "",
+                           val uuid: String? = "",
+                           val port: Int? = 0,
+                           val status: String? = "",
+                           val room: String? = "")

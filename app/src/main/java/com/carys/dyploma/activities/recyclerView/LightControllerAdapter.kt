@@ -7,17 +7,18 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.carys.dyploma.activities.dataModels.LightController
+import com.carys.dyploma.activities.dataModels.ResponseJSON
+import com.carys.dyploma.activities.dataModels.Responset
 import com.carys.dyploma.activities.dataModels.Sensor
 import kotlinx.android.synthetic.*
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onSeekBarChangeListener
 
-class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf()) : RecyclerView.Adapter<LightControllerAdapter.LightControllerViewHolder>() {
-    /*
-    var lightlist : ArrayList<LightController>
-    init {
-        lightlist = list
-    }
-    */
+class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf()) : LightControllerCallback, RecyclerView.Adapter<LightControllerAdapter.LightControllerViewHolder>() {
+
+    val model = LightControllerModel()
+
     fun setData(lst: ArrayList<LightController>) {
         list = lst
         notifyDataSetChanged()
@@ -29,10 +30,17 @@ class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf(
 
     override fun onBindViewHolder(holder: LightControllerViewHolder, position: Int) {
         val device = list[position]
-        holder.lightBrightness.progress = device.lightBrightness
-        holder.lightType.text = device.lightType
-        //holder.lightRoom.text = device.lightRoom
-        //holder.lightName.text = device.lightName
+        holder.lightBrightness.progress = device.brightness
+        holder.lightType.text = device.type
+        holder.lightId = device.id
+
+        holder.lightBrightness.onSeekBarChangeListener {
+            onProgressChanged { seekbar: SeekBar?, i: Int, b: Boolean ->
+                if (seekbar != null) {
+                    //model.putLamp(this@LightControllerAdapter, holder.lightId, i)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -40,19 +48,20 @@ class LightControllerAdapter(var list: ArrayList<LightController> = arrayListOf(
     }
 
     inner class LightControllerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         var lightBrightness: SeekBar
         var lightType: TextView
-        //var lightRoom: TextView
-        //var lightName: TextView
-
+        var lightId: Int = 0
         init {
             lightBrightness = itemView.findViewById(LightControllerUI.lightBrightness)
             lightType = itemView.findViewById(LightControllerUI.lightType)
-            //lightRoom = itemView.findViewById(DeviceItemUI.lightRoom)
-            //lightName = itemView.findViewById(DeviceItemUI.lightName)
         }
-
     }
 
+    override fun onPutSuccess(callback: ResponseJSON<Responset>) {
+        println("put a lamp!")
+    }
+
+    override fun onFailure(networkError: Throwable) {
+        println("couldn't put a lamp")
+    }
 }

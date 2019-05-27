@@ -8,6 +8,7 @@
             tools:ignore="ManifestOrder"/>
 
     <application
+            android:name=".activities.SharedUtils"
             android:allowBackup="true"
             android:fullBackupContent="@xml/my_backup_rules"
             android:icon="@mipmap/bro"
@@ -17,8 +18,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning"
-            tools:targetApi="n"
-            android:name="com.carys.dyploma.activities.SharedUtils">
+            tools:targetApi="n">
+
         <meta-data
                 android:name="com.google.android.actions"
                 android:resource="@xml/actions"/>
@@ -29,11 +30,10 @@
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainViewActivity"/>
+        <activity android:name=".activities.MainViewActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
     </application>
-
 </manifest>
