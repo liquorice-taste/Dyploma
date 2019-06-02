@@ -11,10 +11,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.carys.dyploma.activities.dataModels.LightController
-import com.carys.dyploma.activities.dataModels.Sensor
-import com.carys.dyploma.activities.recyclerView.LightControllerAdapter
-import com.carys.dyploma.activities.recyclerView.SensorAdapter
+import com.carys.dyploma.R
+import com.carys.dyploma.dataModels.LightController
+import com.carys.dyploma.dataModels.Sensor
+import com.carys.dyploma.recyclerView.LightControllerAdapter
+import com.carys.dyploma.recyclerView.SensorAdapter
+import com.carys.dyploma.presenters.RoomContentPresenter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
@@ -31,6 +33,7 @@ class RoomContentActivity(contentLayoutId: Int, val roomId: Int) : Fragment(cont
             is Button -> v.textSize = 26f
             is EditText -> v.textSize = 24f
             is TextView -> v.textSize = 26f
+
         }
     }
 
@@ -50,26 +53,18 @@ class RoomContentActivity(contentLayoutId: Int, val roomId: Int) : Fragment(cont
             //layoutParam(width = matchParent, height = matchParent)
             verticalLayout {
                 textView() {
-                    text = "Lights"
+                    text = resources.getText(R.string.lights)
                 }
-
-
                 lightRec = recyclerView {
                     id = lightRecycler
                     layoutManager = LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
                     adapter = LightControllerAdapter(lights)
                 }
-
                 sensorRec = recyclerView {
                     id = sensorRecycler
                     layoutManager = LinearLayoutManager(ctx, RecyclerView.HORIZONTAL, false)
                     adapter = SensorAdapter(sensors)
                 }
-
-                gridView {
-
-                }
-
                 //bottomNavigationView { }
             }.applyRecursively(customStyle)
         }.view

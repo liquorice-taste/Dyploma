@@ -12,7 +12,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.carys.dyploma.R
-import com.carys.dyploma.activities.dataModels.HomeSystem
+import com.carys.dyploma.dataModels.HomeSystem
+import com.carys.dyploma.presenters.AuthPresenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,12 +24,12 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AuthActivityUi().setContentView(this)
+        AuthActivityUI().setContentView(this)
     }
 
-    class AuthActivityUi() : AnkoComponent<AuthActivity> {
+    class AuthActivityUI() : AnkoComponent<AuthActivity> {
 
-        val presenter = AuthPresenter(this)
+        private val presenter = AuthPresenter(this)
         lateinit var myui: AnkoContext<AuthActivity>
         lateinit var username: EditText
         lateinit var password: EditText
@@ -38,8 +39,9 @@ class AuthActivity : AppCompatActivity() {
 
         private val customStyle = { v: Any ->
             when (v) {
-                is Button -> v.textSize = 26f
-                is EditText -> v.textSize = 24f
+
+                is Button -> v.textSize = myui.resources.getDimension(R.dimen.auth_button)
+                is EditText -> v.textSize = myui.resources.getDimension(R.dimen.auth_text)
             }
         }
 
@@ -47,10 +49,10 @@ class AuthActivity : AppCompatActivity() {
 
             myui = ui
             verticalLayout {
-                padding = dip(32)
+                padding = dip(resources.getDimension(R.dimen.auth_margin))
 
                 image = imageView(R.mipmap.bro).lparams {
-                    margin = dip(32)
+                    margin = dip(resources.getDimension(R.dimen.auth_margin))
                     gravity = Gravity.CENTER
                 }
 
@@ -61,7 +63,8 @@ class AuthActivity : AppCompatActivity() {
                     hintResource = R.string.password
                     inputType = TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
                 }
-                login = button("Log in") {
+                login = button {
+                    text =  resources.getText(R.string.login_button)
                     onClick() {
                         presenter.authorize()
                     }
@@ -73,7 +76,7 @@ class AuthActivity : AppCompatActivity() {
             }.applyRecursively(customStyle)
         }
 
-        fun launchActivity(home: HomeSystem) = with(myui) {
+        private fun launchActivity(home: HomeSystem) = with(myui) {
             val intent = Intent(ctx, MainViewActivity::class.java)
             intent.putExtra("HomeSystem", home)
             ctx.startActivity(intent)
@@ -88,7 +91,7 @@ class AuthActivity : AppCompatActivity() {
 
         fun messageSystems(list: ArrayList<HomeSystem>) = with(myui) {
             GlobalScope.launch(Dispatchers.Main) {
-                selector("Choose your home:", list.map { it.name })
+                selector(resources.getText(R.string.system_selector), list.map { it.name })
                     { _, i -> launchActivity(list[i]) }
             }
         }

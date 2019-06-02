@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="username">логин</string>
+    <string name="password">пароль</string>
+    <string name="login_button">ВОЙТИ</string>
+    <string name="system_selector">Выберете дом:</string>
+    <string name="lights">Освещение</string>
+    <string name="sensors">Датчики</string>
+    <string name="controllers">Контроллеры</string>
+    <string name="settings">Настройки</string>
+    <string name="change_user">Сменить пользователя</string>
+    <string name="change_system">Сменить систему</string>
+    <string name="create_task">Создать таску</string>
+</resources>

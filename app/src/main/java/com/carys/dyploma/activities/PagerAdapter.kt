@@ -1,11 +1,9 @@
 package com.carys.dyploma.activities
 
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.carys.dyploma.activities.dataModels.Room
-import com.carys.dyploma.activities.recyclerView.SensorUI
+import com.carys.dyploma.dataModels.Room
 
 class PagerAdapter(val fm: FragmentManager, behaviour: Int) : FragmentPagerAdapter(fm, behaviour) {
 
@@ -30,7 +28,7 @@ class PagerAdapter(val fm: FragmentManager, behaviour: Int) : FragmentPagerAdapt
         mFragmentTitleList.add(title)
     }
 
-    fun addRoomList(rooms: List<Room>) {
+    private fun addRoomList(rooms: List<Room>) {
 
         rooms.forEach{
             mFragmentList.add(RoomContentActivity(it.id, it.id) )
@@ -53,6 +51,7 @@ class PagerAdapter(val fm: FragmentManager, behaviour: Int) : FragmentPagerAdapt
        }
         mFragmentList.clear()
         mFragmentTitleList.clear()
+        notifyDataSetChanged()
         //notifyDataSetChanged()
         addRoomList(rooms)
     }

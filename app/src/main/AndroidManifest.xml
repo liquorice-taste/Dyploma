@@ -4,11 +4,12 @@
           package="com.carys.dyploma">
 
     <uses-permission
-            android:name="android.permission.INTERNET"
-            tools:ignore="ManifestOrder"/>
+            android:name="android.permission.INTERNET"/>
+    <uses-permission
+            android:name="android.permission.RECORD_AUDIO"/>
 
     <application
-            android:name=".activities.SharedUtils"
+            android:name=".general.SharedUtils"
             android:allowBackup="true"
             android:fullBackupContent="@xml/my_backup_rules"
             android:icon="@mipmap/bro"
@@ -34,6 +35,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainViewActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.TaskActivity"
                   android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 </manifest>

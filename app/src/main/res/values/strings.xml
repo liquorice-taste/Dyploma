@@ -3,10 +3,22 @@
         ]>
 
 <resources>
-    <string name="app_name">Big Brother</string>
+    <string name="app_name" translatable="false">Big Brother</string>
     <string name="username">login</string>
     <string name="password">password</string>
+    <string name="login_button">LOG IN</string>
+    <string name="system_selector">Choose your home:</string>
+    <string name="lights">Lights</string>
+    <string name="sensors">Sensors</string>
+    <string name="controllers">Controllers</string>
+    <string name="settings">Settings</string>
+    <string name="change_user">Change user</string>
+    <string name="change_system">Change system</string>
+
+
+
     <string name="shadow_color">black</string>
     <string name="auth_url">"http://188.32.136.71:8000/api/system/"</string>
     <string name="light_url">"http://188.32.136.71:8000/api/lightcontroller/"</string>
+    <string name="create_task">Create task</string>
 </resources>
