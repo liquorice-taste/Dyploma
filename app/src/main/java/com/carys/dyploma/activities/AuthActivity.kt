@@ -1,7 +1,9 @@
 package com.carys.dyploma.activities
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
@@ -26,7 +28,33 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AuthActivityUI().setContentView(this)
     }
+/*
+    override fun onStart() {
+        super.onStart()
 
+        bindService(Intent(this, SpeechService::class.java), mServiceConnection, BIND_AUTO_CREATE)
+
+        // Start listening to voices
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            ) === PackageManager.PERMISSION_GRANTED
+        ) {
+            startVoiceRecorder()
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            )
+        ) {
+            showPermissionMessageDialog()
+        } else {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.RECORD_AUDIO),
+                REQUEST_RECORD_AUDIO_PERMISSION
+            )
+        }
+    }
+*/
     class AuthActivityUI() : AnkoComponent<AuthActivity> {
 
         private val presenter = AuthPresenter(this)

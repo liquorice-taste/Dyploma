@@ -27,7 +27,9 @@ class RoomContentActivity(contentLayoutId: Int, val roomId: Int) : Fragment(cont
         const val sensorRecycler = 2
     }
 
-    private val presenter = RoomContentPresenter(this)
+    private val presenter: RoomContentPresenter by lazy{
+        RoomContentPresenter(this)
+    }
     private val customStyle = { v: Any ->
         when (v) {
             is Button -> v.textSize = 26f
