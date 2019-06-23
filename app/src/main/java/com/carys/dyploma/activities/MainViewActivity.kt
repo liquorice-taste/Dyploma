@@ -6,8 +6,6 @@ import android.content.Intent
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.view.Gravity
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -76,13 +74,13 @@ class MainViewActivity: AppCompatActivity()  {
                             id = R.id.toolbar
                             title = resources.getString(R.string.app_name)
                             menu.apply {
-                                add(resources.getText(R.string.settings)).apply {
+                                /*add(resources.getText(R.string.settings)).apply {
                                     setIcon(R.drawable.ic_menu_camera)
                                     setOnMenuItemClickListener {
                                         toast("hi")
                                         true
                                     }
-                                }
+                                }*/
                                 add(resources.getText(R.string.change_system)).apply {
                                     setIcon(R.mipmap.home_icon)
                                     setOnMenuItemClickListener {
@@ -93,14 +91,28 @@ class MainViewActivity: AppCompatActivity()  {
                                 add(resources.getText(R.string.change_user)).apply {
                                     setIcon(R.drawable.ic_menu_camera)
                                     setOnMenuItemClickListener {
-                                        launchActivity()
+                                        changeUser()
                                         true
                                     }
                                 }
-                                add(resources.getText(R.string.create_task)).apply {
+                                /*add(resources.getText(R.string.create_task)).apply {
                                     setIcon(R.drawable.ic_menu_camera)
                                     setOnMenuItemClickListener {
-                                        launchActivity()
+                                        changeUser()
+                                        true
+                                    }
+                                }*/
+                                add(resources.getText(R.string.register_user)).apply {
+                                    setIcon(R.drawable.ic_menu_camera)
+                                    setOnMenuItemClickListener {
+                                        registerUser()
+                                        true
+                                    }
+                                }
+                                add(resources.getText(R.string.history)).apply {
+                                    setIcon(R.drawable.ic_menu_camera)
+                                    setOnMenuItemClickListener {
+                                        watchHistory()
                                         true
                                     }
                                 }
@@ -136,14 +148,13 @@ class MainViewActivity: AppCompatActivity()  {
                         AppBarLayout.ScrollingViewBehavior()
 
                     floatingActionButton {
-                        image = resources.getDrawable(R.drawable.ic_menu_send)
+                        image = resources.getDrawable(R.mipmap.microphone)
                         onClick {
                             val mediaRecorder = MediaRecorder()
                             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
                             try {
                                 mediaRecorder.prepare()
                                 mediaRecorder.start()
-
                             } catch (e: IOException) {
                                 toast(e.localizedMessage)
                             }
@@ -159,12 +170,23 @@ class MainViewActivity: AppCompatActivity()  {
                 }
             }
         }
-        private fun launchActivity() = with(myui) {
+        private fun changeUser() = with(myui) {
             SharedUtils.remove("Token")
             val intent = Intent(ctx, AuthActivity::class.java)
             ctx.startActivity(intent)
             (ctx as Activity).finish()
         }
+
+        private fun registerUser() = with(myui) {
+            val intent = Intent(ctx, RegistrationActivity::class.java)
+            ctx.startActivity(intent)
+        }
+        private fun watchHistory() = with(myui) {
+            val intent = Intent(ctx, HistoryActivity::class.java)
+            ctx.startActivity(intent)
+        }
+
+
         fun messageSystems(list: ArrayList<HomeSystem>) = with(myui) {
             GlobalScope.launch(Dispatchers.Main) {
                 selector(resources.getText(R.string.system_selector), list.map { it.name })

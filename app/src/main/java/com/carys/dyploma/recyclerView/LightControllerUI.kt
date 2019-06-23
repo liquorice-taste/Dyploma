@@ -46,22 +46,7 @@ class LightControllerUI : AnkoComponent<ViewGroup> {
                 }.lparams{ width = matchParent; leftOf(lightSwitch) }
 
             }
-
             padding = dip(16)
-
-            /*when (lType.text) {
-                "RGB" -> {
-
-                }
-                "Singlecolor" -> {
-                    seekBar {
-                        //id = lightBrightness
-                        max = 255
-                        onSeekBarChangeListener {}
-                    }
-                }
-
-            }*/
         }
     }
 }

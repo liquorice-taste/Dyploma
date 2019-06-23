@@ -8,7 +8,12 @@
     <string name="sensors">Датчики</string>
     <string name="controllers">Контроллеры</string>
     <string name="settings">Настройки</string>
+    <string name="history">История</string>
     <string name="change_user">Сменить пользователя</string>
     <string name="change_system">Сменить систему</string>
+    <string name="register_user">Зарегистрировать пользователя</string>
+    <string name="register_button">ЗАРЕГИСТРИРОВАТЬ</string>
     <string name="create_task">Создать таску</string>
+    <string name="on_reg_success">Пользователь был успешно зарегистрирован</string>
+    <string name="on_reg_failure">Не удалось зарегистровать пользователя</string>
 </resources>

@@ -51,23 +51,27 @@ class RoomContentActivity(contentLayoutId: Int, val roomId: Int) : Fragment(cont
         presenter.getLights()
         presenter.getSensors()
         return UI {
-            //id = 100
-            //layoutParam(width = matchParent, height = matchParent)
             verticalLayout {
-                textView() {
-                    text = resources.getText(R.string.lights)
+                if (lights.isNotEmpty()) {
+                    textView() {
+                        text = resources.getText(R.string.lights)
+                    }
+                    lightRec = recyclerView {
+                        id = lightRecycler
+                        layoutManager = LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
+                        adapter = LightControllerAdapter(lights)
+                    }
                 }
-                lightRec = recyclerView {
-                    id = lightRecycler
-                    layoutManager = LinearLayoutManager(ctx, RecyclerView.VERTICAL, false)
-                    adapter = LightControllerAdapter(lights)
+                if (sensors.isNotEmpty()) {
+                    sensorRec = recyclerView {
+                        textView() {
+                            text = resources.getText(R.string.sensors)
+                        }
+                        id = sensorRecycler
+                        layoutManager = LinearLayoutManager(ctx, RecyclerView.HORIZONTAL, false)
+                        adapter = SensorAdapter(sensors)
+                    }
                 }
-                sensorRec = recyclerView {
-                    id = sensorRecycler
-                    layoutManager = LinearLayoutManager(ctx, RecyclerView.HORIZONTAL, false)
-                    adapter = SensorAdapter(sensors)
-                }
-                //bottomNavigationView { }
             }.applyRecursively(customStyle)
         }.view
     }

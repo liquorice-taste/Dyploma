@@ -16,26 +16,27 @@ class AuthModel {
     fun getToken(username: String, password: String, callback: AuthCallback) {
         with(bigBrotherApi) {
             getToken(Credentials("pepe", "pepepepe"))
-                //.map{Log.d("gettoken", Thread.currentThread().name)}
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainThread())
-                .subscribe({
-                    result -> callback.onTokenSuccess(result)
-                }, {
-                    error -> callback.onFailure(error)
+                .subscribe({ result ->
+                    callback.onTokenSuccess(result)
+                }, { error ->
+                    callback.onFailure(error)
                 })
         }
     }
+
+
 
     @SuppressLint("CheckResult")
     fun beginSearch(token: String, callback: AuthCallback) {
         bigBrotherApi.getSystems(token)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
-            .subscribe({
-                    result -> callback.onSystemSuccess(result)
-            }, {
-                    error -> callback.onFailure(error)
+            .subscribe({ result ->
+                callback.onSystemSuccess(result)
+            }, { error ->
+                callback.onFailure(error)
             })
     }
 

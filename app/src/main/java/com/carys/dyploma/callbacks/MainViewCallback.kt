@@ -7,5 +7,6 @@ import com.carys.dyploma.dataModels.Room
 interface MainViewCallback {
     fun onRoomSuccess(callback: ResponseJSON<Room>)
     fun onSystemSuccess(callback: ResponseJSON<HomeSystem>)
+
     fun onFailure(networkError: Throwable)
 }

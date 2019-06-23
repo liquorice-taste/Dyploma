@@ -16,6 +16,7 @@ class AuthPresenter(private val view: AuthActivity.AuthActivityUI): AuthCallback
     fun authorize() {
         view.progress.visibility = ProgressBar.VISIBLE
         view.login.isEnabled = false
+
         model.getToken(view.username.text.toString(), view.password.text.toString(), this)
     }
 
@@ -29,6 +30,7 @@ class AuthPresenter(private val view: AuthActivity.AuthActivityUI): AuthCallback
         view.progress.visibility = ProgressBar.INVISIBLE
         view.login.isEnabled = true
         SharedUtils.write("Token", "Bearer " + callback.access_token)
+        //model.registerUser(view.username.text.toString(), view.password.text.toString(),SharedUtils.read("Token"), this)
         model.beginSearch(SharedUtils.read("Token"), this)
     }
 

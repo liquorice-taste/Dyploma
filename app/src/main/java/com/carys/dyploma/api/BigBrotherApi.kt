@@ -18,6 +18,11 @@ interface BigBrotherApi {
         @Header("Authorization") token: String) :
             Observable<ResponseJSON<HomeSystem>>
 
+    @POST("api/register/")
+    fun registerUser(
+        @Body credentials: Credentials):
+            Observable<Token>
+
     @GET("api/lightcontroller/")
     fun getLightControllers(
         @Header("Authorization") token: String) :
@@ -45,6 +50,12 @@ interface BigBrotherApi {
         @Header("Authorization") token: String,
         @Path("sysid") sysid: Int) :
             Observable<ResponseJSON<Room>>
+
+    @GET("api/job/")
+    fun getJobs(
+        @Header("Authorization") token: String) :
+        //@Path("sysid") sysid: Int) :
+            Observable<Token>
 
     @FormUrlEncoded
     @POST("api/lightcontroller/brightness/")

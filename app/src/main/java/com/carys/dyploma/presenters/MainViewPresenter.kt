@@ -7,8 +7,7 @@ import com.carys.dyploma.dataModels.Room
 import com.carys.dyploma.callbacks.MainViewCallback
 import com.carys.dyploma.models.MainViewModel
 
-class MainViewPresenter(private val view: MainViewActivity.MainViewActivityUI):
-    MainViewCallback {
+class MainViewPresenter(private val view: MainViewActivity.MainViewActivityUI): MainViewCallback {
     private val model = MainViewModel()
 
     fun getRooms() {

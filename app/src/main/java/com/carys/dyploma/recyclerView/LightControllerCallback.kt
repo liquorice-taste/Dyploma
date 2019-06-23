@@ -5,6 +5,5 @@ import com.carys.dyploma.dataModels.ResponseJSON
 
 interface LightControllerCallback {
     fun onPutSuccess(callback: ResponseJSON<LightController>)
-
     fun onFailure(networkError: Throwable)
 }
